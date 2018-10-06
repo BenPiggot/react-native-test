@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, TextInput, View} from 'react-native';
+import { Platform, StyleSheet, TextInput, View, Button } from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -26,14 +26,22 @@ export default class App extends Component<Props> {
     this.setState({ placeName: val })
   }
 
+  onPlaceSubmit = () => {
+    
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <TextInput 
-          style={{ width: 300, borderColor: "black", borderWidth: 1 }}
-          value={this.state.placeName} 
-          onChangeText={this.onPlaceNameChange}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput 
+            style={styles.placeInput}
+            value={this.state.placeName} 
+            placeholder="An Awesome Place"
+            onChangeText={this.onPlaceNameChange}
+          />
+          <Button title="Add" style={styles.placeInput}/>
+        </View>
       </View>
     );
   }
@@ -42,18 +50,20 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    paddingTop: 30
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  placeInput: {
+    width: '70%'
   },
+  placeButton: {
+    width: '30%'
+  }
 });
