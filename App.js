@@ -8,7 +8,8 @@
 
 import React, {Component} from 'react';
 import { Platform, StyleSheet, TextInput, View, Text, Button } from 'react-native';
-import ListItem from './src/components/ListItem/ListItem';
+import UserInput from './src/components/UserInput';
+import PlaceList from './src/components/PlaceList';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -41,21 +42,14 @@ export default class App extends Component<Props> {
   }
 
   render() {
-    const places = this.state.places.map(place => <ListItem key={place} placeName={place} />)
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput 
-            style={styles.placeInput}
-            value={this.state.placeName} 
-            placeholder="An Awesome Place"
-            onChangeText={this.handlePlaceNameChange}
-          />
-          <Button title="Add" style={styles.placeInput} onPress={this.handlePlaceSubmit} />
-        </View>
-        <View style={styles.listContainer}>
-          { places }
-        </View>
+        <UserInput 
+          handlePlaceNameChange={this.handlePlaceNameChange}
+          handlePlaceSubmit={this.handlePlaceSubmit}
+          placeName={this.state.placeName}
+        />
+        <PlaceList places={this.state.places} />
       </View>
     );
   }
@@ -68,19 +62,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     padding: 26
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  placeInput: {
-    width: '70%'
-  },
-  placeButton: {
-    width: '30%'
-  },
-  listContainer: {
-    width: '100%'
   }
 });
