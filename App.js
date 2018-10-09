@@ -7,7 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import { Platform, StyleSheet, TextInput, View, Button } from 'react-native';
+import { Platform, StyleSheet, TextInput, View, Text, Button } from 'react-native';
+import ListItem from './src/components/ListItem/ListItem';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -19,18 +20,28 @@ const instructions = Platform.select({
 type Props = {};
 export default class App extends Component<Props> {
   state = {
-    placeName: ''
+    placeName: '',
+    places: []
   }
 
-  onPlaceNameChange = (val) => {
+  handlePlaceNameChange = (val) => {
     this.setState({ placeName: val })
   }
 
-  onPlaceSubmit = () => {
-    
+  handlePlaceSubmit = () => {
+    if (this.state.placeName.trim() === "") {
+      return;
+    }
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat(prevState.placeName),
+        placeName: ""
+      }
+    })
   }
 
   render() {
+    const places = this.state.places.map(place => <ListItem key={place} placeName={place} />)
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -38,9 +49,12 @@ export default class App extends Component<Props> {
             style={styles.placeInput}
             value={this.state.placeName} 
             placeholder="An Awesome Place"
-            onChangeText={this.onPlaceNameChange}
+            onChangeText={this.handlePlaceNameChange}
           />
-          <Button title="Add" style={styles.placeInput}/>
+          <Button title="Add" style={styles.placeInput} onPress={this.handlePlaceSubmit} />
+        </View>
+        <View style={styles.listContainer}>
+          { places }
         </View>
       </View>
     );
@@ -53,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    paddingTop: 30
+    padding: 26
   },
   inputContainer: {
     flexDirection: 'row',
@@ -65,5 +79,8 @@ const styles = StyleSheet.create({
   },
   placeButton: {
     width: '30%'
+  },
+  listContainer: {
+    width: '100%'
   }
 });
