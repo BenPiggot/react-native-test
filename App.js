@@ -41,6 +41,10 @@ export default class App extends Component<Props> {
     })
   }
 
+  handlePlaceDeleted = (idx) => {
+    this.setState({ places: this.state.places.filter((place, i) => i !== idx)})
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -49,7 +53,7 @@ export default class App extends Component<Props> {
           handlePlaceSubmit={this.handlePlaceSubmit}
           placeName={this.state.placeName}
         />
-        <PlaceList places={this.state.places} />
+        <PlaceList places={this.state.places} handlePlaceDeleted={this.handlePlaceDeleted} />
       </View>
     );
   }
